@@ -1,0 +1,18 @@
+firebase 9 is modular in nature (tree shaking approach), ie we only mport functions which are
+useful to us and not entire bundle
+we use module bundle like webpack in case of conventional html js
+in case of react we wont need this
+creat dist and source folder (dist folder contains the index files and source is for src)
+npm init -y (get dependency json)
+npm  i webpack webpack-cli -D
+in source file make webpack.config.js
+
+
+initializeApp(firebaseConfig)
+const db=getFirestore()
+const colref=collection(db,"name");
+addDoc deleteDoc onSnapshot doc
+query(colref,where("field","equality","fieldValue")) 
+onSnapshot(q,(snapshot)=>{
+    
+})
