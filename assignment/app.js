@@ -76,7 +76,6 @@ app.post("/user/addpost", async (req, res) => {
     return res.status(500).json({ error: "Failed to update user" });
   }
 });
-
 //signing up
 app.post("/signup", async (req, res) => {
   let buff = req.body;
@@ -132,9 +131,13 @@ app.post("/login", async (req, res) => {
     });
     for (let i = 0; i < users.length; i++) {
       if (users[i].email == email) {
-        loggedin = true;
-        loginMail = email;
-        return res.status(200).json({ message: "logged in" });
+        if (password == users[i].password) {
+          loggedin = true;
+          loginMail = email;
+          return res.status(200).json({ message: "logged in" });
+        } else {
+          return res.status(401).json({ message: "wrong password" });
+        }
 
         //login activity
       }
