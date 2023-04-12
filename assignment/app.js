@@ -15,28 +15,54 @@ const colref = db.collection("users");
 
 app.use(express.json());
 let userLogged = 0;
-
+//signing up
 app.post("/signup/", async (req, res) => {
   let buff = req.body;
   let name = buff.name;
   let email = buff.email;
   let password = buff.password;
-
   if (!name || !password || !email) {
     return res.status(400).json({ error: "Missing required fields" });
   }
-
   try {
-    const newUser = await colref.add({
-      name,
-      password,
-      email,
+    const usersSnapshot = await colref.get();
+    const users = [];
+    usersSnapshot.forEach((doc) => {
+      users.push(doc.data());
     });
-    userLogged = newUser.id;
-    return res.json({ id: newUser.id });
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].email == email) {
+        return res.status(200).json({ error: "Account exists, please login" });
+      }
+    }
+    try {
+      const newUser = await colref.add({
+        name,
+        password,
+        email,
+      });
+      userLogged = newUser.id;
+      return res.json({ id: newUser.id });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Failed to add user" });
+    }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to add user" });
+    return res.status(500).json({ error: "Server failed" });
+  }
+});
+//admin access to database
+app.get("/adminData", async (req, res) => {
+  try {
+    const usersSnapshot = await colref.get();
+    const users = [];
+    usersSnapshot.forEach((doc) => {
+      users.push(doc.data());
+    });
+    return res.status(200).json(users);
+  } catch (error) {
+    // console.error(error);
+    return res.status(500).json({ error: "Failed to get users" });
   }
 });
 
