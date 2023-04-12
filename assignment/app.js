@@ -66,9 +66,21 @@ app.post("/user/addpost", async (req, res) => {
     }
 
     const docRef = querySnapshot.docs[0].ref;
-    await docRef.update({
-      post: req.body.post,
-    });
+    const docSnapshot = await docRef.get();
+    if (!Array.isArray(docSnapshot.data().post)) {
+      let buff = [];
+      buff.push(req.body.post);
+
+      await docRef.update({
+        post: buff,
+      });
+    } else {
+      let buff = docSnapshot.data().post;
+      buff.push(req.body.post);
+      await docRef.update({
+        post: buff,
+      });
+    }
 
     return res.status(200).json({ message: "updated" });
   } catch (error) {
@@ -138,8 +150,6 @@ app.post("/login", async (req, res) => {
         } else {
           return res.status(401).json({ message: "wrong password" });
         }
-
-        //login activity
       }
     }
     return res.status(200).json({ message: "account does not exist" });
