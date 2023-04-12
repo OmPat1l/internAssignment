@@ -157,6 +157,16 @@ app.post("/login", async (req, res) => {
     return res.status(500).json({ error: "Server failed" });
   }
 });
+//logout
+app.get("/logout", (req, res) => {
+  if (loggedin) {
+    loggedin = false;
+    loginMail = null;
+    return res.status(204).json({ message: "logged out" });
+  } else {
+    return res.status(400).json({ message: "already logged out" });
+  }
+});
 //admin access to database
 app.get("/adminData", async (req, res) => {
   try {
