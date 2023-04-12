@@ -52,6 +52,30 @@ app.patch("/users/:email", async (req, res) => {
     return res.status(500).json({ error: "Failed to update user" });
   }
 });
+//add posts
+app.post("/user/addpost", async (req, res) => {
+  if (loggedin == false) {
+    return res.status(401).json({ message: "login first" });
+  }
+
+  try {
+    const querySnapshot = await colref.where("email", "==", loginMail).get();
+
+    if (querySnapshot.empty) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const docRef = querySnapshot.docs[0].ref;
+    await docRef.update({
+      post: req.body.post,
+    });
+
+    return res.status(200).json({ message: "updated" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to update user" });
+  }
+});
 
 //signing up
 app.post("/signup", async (req, res) => {
