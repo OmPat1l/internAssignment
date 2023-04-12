@@ -15,6 +15,44 @@ const colref = db.collection("users");
 
 app.use(express.json());
 let userLogged = 0;
+let loggedin = false;
+let loginMail = 0;
+
+//change password and name
+app.patch("/users/:email", async (req, res) => {
+  const email12 = req.params.email;
+  if (loggedin == false) {
+    return res.status(500).json({ message: "please login to change password" });
+  }
+  if (email12 != loginMail) {
+    return res.status(500).json({
+      message: "please login from same account, email does not match",
+    });
+  }
+
+  const name = req.body.name;
+  const password = req.body.password;
+
+  try {
+    const querySnapshot = await colref.where("email", "==", email12).get();
+
+    if (querySnapshot.empty) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const docRef = querySnapshot.docs[0].ref;
+    await docRef.update({
+      name: name,
+      password: password,
+    });
+
+    return res.status(204).json({ message: "updated" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to update user" });
+  }
+});
+
 //signing up
 app.post("/signup", async (req, res) => {
   let buff = req.body;
@@ -42,6 +80,8 @@ app.post("/signup", async (req, res) => {
         email,
       });
       userLogged = newUser.id;
+      loggedin = true;
+      loginMail = email;
       return res.json({ id: newUser.id });
     } catch (error) {
       console.error(error);
@@ -68,6 +108,10 @@ app.post("/login", async (req, res) => {
     });
     for (let i = 0; i < users.length; i++) {
       if (users[i].email == email) {
+        loggedin = true;
+        loginMail = email;
+        return res.status(200).json({ message: "logged in" });
+
         //login activity
       }
     }
