@@ -178,3 +178,22 @@ form.addEventListener("submit", (event) => {
       console.error(error);
     });
 });
+
+const logoutBtn = document.getElementById("logout");
+
+logoutBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  fetch("http://localhost:3003/logout")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Logout failed!");
+      }
+
+      window.location.href = "./login.html"; // Redirect to login page
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Logout failed! Please try again later.");
+    });
+});
