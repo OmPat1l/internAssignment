@@ -149,3 +149,32 @@ getPostInfo();
 getUserInfo();
 
 getAllPosts();
+
+const form = document.querySelector("#addpostform");
+const addpostInput = document.querySelector("#addpost");
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const addpost = addpostInput.value.trim();
+
+  // Send a POST request to the API endpoint
+  fetch("http://localhost:3003/user/addpost", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ post: addpost }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Refresh the page if the response is ok
+        window.location.reload();
+      } else {
+        throw new Error("Failed to add post");
+      }
+    })
+    .catch((error) => {
+      // Handle the error if the request fails
+      console.error(error);
+    });
+});

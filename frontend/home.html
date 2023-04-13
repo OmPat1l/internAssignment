@@ -23,6 +23,8 @@
           <h5 class="card-title">User Info</h5>
         </div>
         <form id="changepass">
+          <h5>Change pass</h5>
+
           <div class="mb-3">
             <label for="namepass" class="form-label">Name</label>
             <input
@@ -41,6 +43,21 @@
           </div>
 
           <button type="submit" class="btn btn-primary">Change</button>
+        </form>
+        <form id="addpostform">
+          <h5>Add post</h5>
+          <div class="mb-3">
+            <label for="addpost" class="form-label">What's in your mind?</label>
+            <input
+              type="text"
+              class="form-control"
+              id="addpost"
+              aria-describedby="addpost"
+            />
+            <div id="addpost" class="form-text">max 60 chars</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Add post</button>
         </form>
       </div>
     </div>
