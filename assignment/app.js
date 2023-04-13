@@ -2,6 +2,12 @@ const express = require("express");
 const admin = require("firebase-admin");
 
 const app = express();
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 const PORT = 3003;
 
 const serviceAccount = require("./serviceKey/servicekey.json");
@@ -129,10 +135,10 @@ app.post("/signup", async (req, res) => {
 //logging in
 app.post("/login", async (req, res) => {
   let buff = req.body;
-  let name = buff.name;
+  // let name = buff.name;
   let email = buff.email;
   let password = buff.password;
-  if (!name || !password || !email) {
+  if (!password || !email) {
     return res.status(400).json({ error: "Missing required fields" });
   }
   try {
@@ -152,7 +158,7 @@ app.post("/login", async (req, res) => {
         }
       }
     }
-    return res.status(200).json({ message: "account does not exist" });
+    return res.status(404).json({ message: "account does not exist" });
   } catch (error) {
     return res.status(500).json({ error: "Server failed" });
   }

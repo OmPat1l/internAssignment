@@ -1,0 +1,27 @@
+.centreform{
+    /* max-width: 40vw; */
+
+    display: flex;
+    height: 100vh;
+    
+        justify-content: center;
+        align-items: center;
+}
+
+.extra1{
+    text-decoration: none;
+    margin-left: 1rem;
+    color: wheat;
+}
+.mb-3 label,form h1{
+    color: wheat;
+}
+form{
+width: 30vw;
+    background: url('./img/bg.jpg');
+    border-radius: 15px;
+    padding: 3rem;
+    padding-top: 3rem;
+
+    margin: auto;
+}
