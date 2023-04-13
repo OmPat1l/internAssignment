@@ -181,7 +181,6 @@ app.get("/adminData", async (req, res) => {
     return res.status(500).json({ error: "Failed to get users" });
   }
 });
-
 //all user posts
 app.get("/allposts", async (req, res) => {
   if (loggedin) {
@@ -205,6 +204,24 @@ app.get("/allposts", async (req, res) => {
   }
 });
 //personal user details
+app.get("/userInfo", async (req, res) => {
+  if (loggedin) {
+    const usersSnapshot = await colref.get();
+    usersSnapshot.forEach((doc) => {
+      if (doc.data().email === loginMail) {
+        userData = doc.data();
+      }
+    });
+
+    if (userData) {
+      res.status(200).json(userData);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } else {
+    res.status(401).json({ message: "login first" });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
