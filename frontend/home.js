@@ -19,10 +19,10 @@ async function getUserInfo() {
       let data1 = await buff.json();
       console.log(data1);
       let cardsUser = document.querySelector(".card-body");
-      let usercontent = `<h6 class="card-subtitle mb-2 text-body-secondary">${data1.name}</h6>
-          <h6 class="card-subtitle mb-2 text-body-secondary">${data1.email}</h6>
+      let usercontent = `<h6 class="card-subtitle mb-2 text-body-secondary">Name: ${data1.name}</h6>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Mail: ${data1.email}</h6>
 
-          <p class="card-text">${data1.password}</p>`;
+          <p class="card-text">Password: ${data1.password}</p>`;
       cardsUser.innerHTML += usercontent;
 
       // do something with the response data
