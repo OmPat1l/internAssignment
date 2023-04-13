@@ -1,7 +1,19 @@
 body {
     background-color: #f7f6f6
 }
+.addpost{
+    display: inline-block;
+    margin: auto;
+}
+.cards{
+    display: inline-block;
 
+}
+.main{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+}
 .card {
 
     border: none;
