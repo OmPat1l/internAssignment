@@ -182,6 +182,30 @@ app.get("/adminData", async (req, res) => {
   }
 });
 
+//all user posts
+app.get("/allposts", async (req, res) => {
+  if (loggedin) {
+    try {
+      const usersSnapshot = await colref.get();
+      const users = [];
+      usersSnapshot.forEach((doc) => {
+        let buff = {};
+        buff.name = doc.data().name;
+        buff.email = doc.data().email;
+        buff.post = doc.data().post;
+        users.push(buff);
+      });
+      return res.status(200).json(users);
+    } catch (error) {
+      // console.error(error);
+      return res.status(500).json({ error: "Failed to get users" });
+    }
+  } else {
+    res.status(401).json({ message: "login first" });
+  }
+});
+//personal user details
+
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
