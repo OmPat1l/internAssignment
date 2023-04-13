@@ -1,6 +1,9 @@
 body {
     background-color: #f7f6f6
 }
+.addpost form{
+    padding: 1rem;
+}
 .addpost{
     display: inline-block;
     margin: auto;

@@ -12,6 +12,34 @@ async function getAllPosts() {
     console.log("Error:", error);
   }
 }
+
+const form7 = document.getElementById("changepass");
+
+form7.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const name7 = document.getElementById("namepass").value;
+  const password7 = document.getElementById("passchange").value;
+
+  try {
+    const response7 = await fetch("http://localhost:3003/changepass", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: name7, password: password7 }),
+    });
+
+    if (response7.ok) {
+      location.reload();
+    } else {
+      throw new Error("Error changing password.");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 async function getUserInfo() {
   try {
     let buff = await fetch("http://localhost:3003/userInfo");

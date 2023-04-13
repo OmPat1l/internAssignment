@@ -4,7 +4,7 @@ const admin = require("firebase-admin");
 const app = express();
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE,PATCH");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
@@ -25,8 +25,8 @@ let loggedin = false;
 let loginMail = 0;
 
 //change password and name
-app.patch("/users/:email", async (req, res) => {
-  const email12 = req.params.email;
+app.patch("/changepass", async (req, res) => {
+  const email12 = loginMail;
   if (loggedin == false) {
     return res.status(500).json({ message: "please login to change password" });
   }
