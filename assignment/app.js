@@ -111,7 +111,7 @@ app.post("/signup", async (req, res) => {
     });
     for (let i = 0; i < users.length; i++) {
       if (users[i].email == email) {
-        return res.status(200).json({ error: "Account exists, please login" });
+        return res.status(500).json({ error: "Account exists, please login" });
       }
     }
     try {
