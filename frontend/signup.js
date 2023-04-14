@@ -21,10 +21,12 @@ form.addEventListener("submit", async (event) => {
     if (response.ok) {
       window.location.href = "./home.html"; // redirect to success page
     } else {
-      throw new Error("Error signing up");
+      alert("Account already exists");
     }
   } catch (error) {
-    console.error(error);
+    alert(error + "Account already exists/ invalid credentials");
+
+    // console.error(error);
     // display error message to user
   }
 });
